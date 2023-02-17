@@ -73,12 +73,20 @@ namespace FastGPU_P
         }
         private void addButton_Click(object sender, EventArgs e)
         {
+            
+            //Instance path only applied if system has more that one GPU.
+            var _instacePath =  @"-InstancePath $instance";
+            if (gpuBox.Items.Count == 1)
+            {
+                _instacePath = string.Empty;
+            }
+
             string _scr = (@"
     Set-ExecutionPolicy -ExecutionPolicy Unrestricted
     $VMName = " + "\""+ vmBox.GetItemText(vmBox.Text) + "\"" +@"
     $instance = "+ "\""+ getGPUInstance(gpuBox.Text) + "\""+ @"
     [decimal]$GPUResourceAllocationPercentage = " + allocationBar.Value.ToString() + @"
-    Add-VMGpuPartitionAdapter -VMName $VMName -InstancePath $instance
+    Add-VMGpuPartitionAdapter -VMName $VMName "+ _instacePath + @"
     [float]$devider = [math]::round($(100 / $GPUResourceAllocationPercentage),2)
     Set-VMGpuPartitionAdapter -VMName $VMName -MinPartitionVRAM ([math]::round($(1000000000 / $devider))) -MaxPartitionVRAM ([math]::round($(1000000000 / $devider))) -OptimalPartitionVRAM ([math]::round($(1000000000 / $devider)))
     Set-VMGPUPartitionAdapter -VMName $VMName -MinPartitionEncode ([math]::round($(18446744073709551615 / $devider))) -MaxPartitionEncode ([math]::round($(18446744073709551615 / $devider))) -OptimalPartitionEncode ([math]::round($(18446744073709551615 / $devider)))
