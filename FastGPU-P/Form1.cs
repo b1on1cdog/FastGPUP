@@ -28,7 +28,7 @@ namespace FastGPU_P
                 }
             }
 
-            string _scr = ("Get-VM | Select -ExpandProperty Name");
+            string _scr = ("Get-VM | Where-Object Generation -GT (1)  | Select -ExpandProperty Name");
             var _ps = PowerShell.Create();
             _ps.AddScript(_scr);
             Collection<PSObject> _cObj = _ps.Invoke();
