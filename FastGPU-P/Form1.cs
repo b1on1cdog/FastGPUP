@@ -1,10 +1,8 @@
 using MetroFramework.Forms;
-using Cudafy;
-using Cudafy.Host;
 using System.Management.Automation;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
-
+using System.Management;
 
 namespace FastGPU_P
 {
@@ -19,12 +17,15 @@ namespace FastGPU_P
         private void Form1_Shown(Object sender, EventArgs e)
         {
             int i = 0;
-            foreach (GPGPUProperties prop in CudafyHost.GetDeviceProperties(CudafyModes.Target, false))
-            {
-                gpuBox.Items.Add(prop.Name);
-                Console.WriteLine();
 
-                i++;
+            using (var searcher = new ManagementObjectSearcher("select * from Win32_VideoController"))
+            {
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    gpuBox.Items.Add(obj["Name"]);
+                    Console.WriteLine();
+                    i++;                    
+                }
             }
 
             string _scr = ("Get-VM | Select -ExpandProperty Name");
