@@ -73,10 +73,13 @@ namespace FastGPU_P
         }
         private void addButton_Click(object sender, EventArgs e)
         {
-            
-            //Instance path only applied if system has more that one GPU.
+            var os = Environment.OSVersion;
+
+            var isWin10 = (os.Version.Major == 10 && os.Version.Build < 22000);
+
+            //Instance path only applied if system has more than one GPU or windows 11.
             var _instacePath =  @"-InstancePath $instance";
-            if (gpuBox.Items.Count == 1)
+            if (gpuBox.Items.Count == 1 || isWin10)
             {
                 _instacePath = string.Empty;
             }
