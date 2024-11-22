@@ -224,8 +224,7 @@ Dismount-VHD -Path $VHD.Path
 If ($state_was_running){
     ""Previous State was running so starting VM...""
     Start-VM $VMName
-    }
-
+}
 ";
             var _ps = PowerShell.Create();
             _ps.AddScript(_scr);
@@ -239,10 +238,6 @@ If ($state_was_running){
                 MessageBox.Show("GPU driver updated successfully!");
             }
             //
-        }
-        private void mountVHD_Click(object sender, EventArgs e)
-        {
-            installDriver();
         }
 
         private void RemoveButton_Click(object sender, EventArgs e)
