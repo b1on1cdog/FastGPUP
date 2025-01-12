@@ -1,10 +1,8 @@
 using MetroFramework.Forms;
-using Cudafy;
-using Cudafy.Host;
 using System.Management.Automation;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
-
+using System.Management;
 
 namespace FastGPU_P
 {
@@ -19,15 +17,18 @@ namespace FastGPU_P
         private void Form1_Shown(Object sender, EventArgs e)
         {
             int i = 0;
-            foreach (GPGPUProperties prop in CudafyHost.GetDeviceProperties(CudafyModes.Target, false))
-            {
-                gpuBox.Items.Add(prop.Name);
-                Console.WriteLine();
 
-                i++;
+            using (var searcher = new ManagementObjectSearcher("select * from Win32_VideoController"))
+            {
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    gpuBox.Items.Add(obj["Name"]);
+                    Console.WriteLine();
+                    i++;                    
+                }
             }
 
-            string _scr = ("Get-VM | Select -ExpandProperty Name");
+            string _scr = ("Get-VM | Where-Object Generation -GT (1)  | Select -ExpandProperty Name");
             var _ps = PowerShell.Create();
             _ps.AddScript(_scr);
             Collection<PSObject> _cObj = _ps.Invoke();
@@ -72,12 +73,23 @@ namespace FastGPU_P
         }
         private void addButton_Click(object sender, EventArgs e)
         {
+            var os = Environment.OSVersion;
+
+            var isWin10 = (os.Version.Major == 10 && os.Version.Build < 22000);
+
+            //Instance path only applied if system has more than one GPU or windows 11.
+            var _instacePath =  @"-InstancePath $instance";
+            if (gpuBox.Items.Count == 1 || isWin10)
+            {
+                _instacePath = string.Empty;
+            }
+
             string _scr = (@"
     Set-ExecutionPolicy -ExecutionPolicy Unrestricted
     $VMName = " + "\""+ vmBox.GetItemText(vmBox.Text) + "\"" +@"
     $instance = "+ "\""+ getGPUInstance(gpuBox.Text) + "\""+ @"
     [decimal]$GPUResourceAllocationPercentage = " + allocationBar.Value.ToString() + @"
-    Add-VMGpuPartitionAdapter -VMName $VMName -InstancePath $instance
+    Add-VMGpuPartitionAdapter -VMName $VMName "+ _instacePath + @"
     [float]$devider = [math]::round($(100 / $GPUResourceAllocationPercentage),2)
     Set-VMGpuPartitionAdapter -VMName $VMName -MinPartitionVRAM ([math]::round($(1000000000 / $devider))) -MaxPartitionVRAM ([math]::round($(1000000000 / $devider))) -OptimalPartitionVRAM ([math]::round($(1000000000 / $devider)))
     Set-VMGPUPartitionAdapter -VMName $VMName -MinPartitionEncode ([math]::round($(18446744073709551615 / $devider))) -MaxPartitionEncode ([math]::round($(18446744073709551615 / $devider))) -OptimalPartitionEncode ([math]::round($(18446744073709551615 / $devider)))
