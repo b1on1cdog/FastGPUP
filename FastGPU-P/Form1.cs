@@ -8,40 +8,61 @@ namespace FastGPU_P
 {
     public partial class Form1 : MetroForm
     {
+        bool isWin10 = false;
         public Form1()
         {
+            var os = Environment.OSVersion;
+            isWin10 = (os.Version.Major == 10 && os.Version.Build < 22000);
             InitializeComponent();
             Shown += Form1_Shown;
         }
 
         private void Form1_Shown(Object sender, EventArgs e)
         {
-            int i = 0;
-
-            using (var searcher = new ManagementObjectSearcher("select * from Win32_VideoController"))
+            if (isWin10)
             {
-                foreach (ManagementObject obj in searcher.Get())
+                //Win10 does not allow GPU selection
+                gpuBox.Text = "Auto";
+                gpuBox.Enabled = false;
+            } else {
+                int i = 0;
+
+                using (var searcher = new ManagementObjectSearcher("select * from Win32_VideoController"))
                 {
-                    gpuBox.Items.Add(obj["Name"]);
-                    Console.WriteLine();
-                    i++;                    
+                    foreach (ManagementObject obj in searcher.Get())
+                    {
+                        gpuBox.Items.Add(obj["Name"]);
+                        Console.WriteLine();
+                        i++;
+                    }
                 }
             }
 
+            //Only 1 GPU installed, disable selection
+            if (gpuBox.Items.Count == 1) {
+                    gpuBox.SelectedIndex = 0;
+                    gpuBox.Enabled = false;
+             }
+
             string _scr = ("Get-VM | Where-Object Generation -GT (1)  | Select -ExpandProperty Name");
-            var _ps = PowerShell.Create();
-            _ps.AddScript(_scr);
-            Collection<PSObject> _cObj = _ps.Invoke();
+                var _ps = PowerShell.Create();
+                _ps.AddScript(_scr);
+                Collection<PSObject> _cObj = _ps.Invoke();
 
-            if (_ps.HadErrors)
-            {
-                Console.WriteLine(_ps.Streams.Error[0].ToString());
-            }
+                if (_ps.HadErrors)
+                {
+                    Console.WriteLine(_ps.Streams.Error[0].ToString());
+                }
 
-            foreach (PSObject _vm in _cObj)
-            {
-                vmBox.Items.Add(_vm);
-            }
+                foreach (PSObject _vm in _cObj)
+                {
+                    vmBox.Items.Add(_vm);
+                }
+
+                if (vmBox.Items.Count == 1){
+                vmBox.SelectedIndex = 0;
+                vmBox.Enabled = false;
+                }
 
         }
 
@@ -73,9 +94,6 @@ namespace FastGPU_P
         }
         private void addButton_Click(object sender, EventArgs e)
         {
-            var os = Environment.OSVersion;
-
-            var isWin10 = (os.Version.Major == 10 && os.Version.Build < 22000);
 
             //Instance path only applied if system has more than one GPU or windows 11.
             var _instacePath =  @"-InstancePath $instance";
