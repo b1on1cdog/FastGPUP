@@ -28,164 +28,180 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gpuBox = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.vmBox = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.addButton = new System.Windows.Forms.Button();
-            this.AllocationLabel = new System.Windows.Forms.Label();
-            this.allocationBar = new MetroFramework.Controls.MetroTrackBar();
-            this.allocLabel = new System.Windows.Forms.Label();
-            this.installDriver = new System.Windows.Forms.Button();
-            this.RemoveButton = new System.Windows.Forms.Button();
-            this.mountVHD = new System.Windows.Forms.Button();
-            this.vhdBox = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            gpuBox = new ComboBox();
+            label1 = new Label();
+            vmBox = new ComboBox();
+            label2 = new Label();
+            addButton = new Button();
+            AllocationLabel = new Label();
+            allocationBar = new MetroFramework.Controls.MetroTrackBar();
+            allocLabel = new Label();
+            installDriver = new Button();
+            RemoveButton = new Button();
+            mountVHD = new Button();
+            vhdBox = new ComboBox();
+            label3 = new Label();
+            SuspendLayout();
             // 
             // gpuBox
             // 
-            this.gpuBox.FormattingEnabled = true;
-            this.gpuBox.Location = new System.Drawing.Point(25, 174);
-            this.gpuBox.Name = "gpuBox";
-            this.gpuBox.Size = new System.Drawing.Size(315, 28);
-            this.gpuBox.TabIndex = 0;
+            gpuBox.FormattingEnabled = true;
+            gpuBox.Location = new Point(31, 218);
+            gpuBox.Margin = new Padding(4, 4, 4, 4);
+            gpuBox.Name = "gpuBox";
+            gpuBox.Size = new Size(393, 33);
+            gpuBox.TabIndex = 0;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 151);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "GPU";
+            label1.AutoSize = true;
+            label1.Location = new Point(31, 189);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(46, 25);
+            label1.TabIndex = 1;
+            label1.Text = "GPU";
             // 
             // vmBox
             // 
-            this.vmBox.FormattingEnabled = true;
-            this.vmBox.Location = new System.Drawing.Point(23, 107);
-            this.vmBox.Name = "vmBox";
-            this.vmBox.Size = new System.Drawing.Size(317, 28);
-            this.vmBox.TabIndex = 2;
+            vmBox.FormattingEnabled = true;
+            vmBox.Location = new Point(29, 134);
+            vmBox.Margin = new Padding(4, 4, 4, 4);
+            vmBox.Name = "vmBox";
+            vmBox.Size = new Size(395, 33);
+            vmBox.TabIndex = 2;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 81);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 20);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "VM";
+            label2.AutoSize = true;
+            label2.Location = new Point(31, 101);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(39, 25);
+            label2.TabIndex = 3;
+            label2.Text = "VM";
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(25, 301);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(144, 29);
-            this.addButton.TabIndex = 4;
-            this.addButton.Text = "Add";
-            this.addButton.UseVisualStyleBackColor = true;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            addButton.Location = new Point(31, 376);
+            addButton.Margin = new Padding(4, 4, 4, 4);
+            addButton.Name = "addButton";
+            addButton.Size = new Size(180, 36);
+            addButton.TabIndex = 4;
+            addButton.Text = "Add";
+            addButton.UseVisualStyleBackColor = true;
+            addButton.Click += addButton_Click;
             // 
             // AllocationLabel
             // 
-            this.AllocationLabel.AutoSize = true;
-            this.AllocationLabel.Location = new System.Drawing.Point(27, 214);
-            this.AllocationLabel.Name = "AllocationLabel";
-            this.AllocationLabel.Size = new System.Drawing.Size(156, 20);
-            this.AllocationLabel.TabIndex = 6;
-            this.AllocationLabel.Text = "Allocation percentage";
+            AllocationLabel.AutoSize = true;
+            AllocationLabel.Location = new Point(34, 268);
+            AllocationLabel.Margin = new Padding(4, 0, 4, 0);
+            AllocationLabel.Name = "AllocationLabel";
+            AllocationLabel.Size = new Size(184, 25);
+            AllocationLabel.TabIndex = 6;
+            AllocationLabel.Text = "Allocation percentage";
             // 
             // allocationBar
             // 
-            this.allocationBar.BackColor = System.Drawing.Color.Transparent;
-            this.allocationBar.Location = new System.Drawing.Point(27, 246);
-            this.allocationBar.Name = "allocationBar";
-            this.allocationBar.Size = new System.Drawing.Size(255, 29);
-            this.allocationBar.TabIndex = 7;
-            this.allocationBar.Text = "null";
-            this.allocationBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.allocationBar_Scroll);
+            allocationBar.BackColor = Color.Transparent;
+            allocationBar.Location = new Point(34, 308);
+            allocationBar.Margin = new Padding(4, 4, 4, 4);
+            allocationBar.Name = "allocationBar";
+            allocationBar.Size = new Size(319, 36);
+            allocationBar.TabIndex = 7;
+            allocationBar.Text = "null";
+            allocationBar.Scroll += allocationBar_Scroll;
             // 
             // allocLabel
             // 
-            this.allocLabel.AutoSize = true;
-            this.allocLabel.Location = new System.Drawing.Point(297, 247);
-            this.allocLabel.Name = "allocLabel";
-            this.allocLabel.Size = new System.Drawing.Size(37, 20);
-            this.allocLabel.TabIndex = 8;
-            this.allocLabel.Text = "50%";
+            allocLabel.AutoSize = true;
+            allocLabel.Location = new Point(371, 309);
+            allocLabel.Margin = new Padding(4, 0, 4, 0);
+            allocLabel.Name = "allocLabel";
+            allocLabel.Size = new Size(47, 25);
+            allocLabel.TabIndex = 8;
+            allocLabel.Text = "50%";
             // 
             // installDriver
             // 
-            this.installDriver.Location = new System.Drawing.Point(91, 372);
-            this.installDriver.Name = "installDriver";
-            this.installDriver.Size = new System.Drawing.Size(243, 29);
-            this.installDriver.TabIndex = 9;
-            this.installDriver.Text = "install/update driver";
-            this.installDriver.UseVisualStyleBackColor = true;
-            this.installDriver.Click += new System.EventHandler(this.installDriver_Click);
+            installDriver.Location = new Point(114, 465);
+            installDriver.Margin = new Padding(4, 4, 4, 4);
+            installDriver.Name = "installDriver";
+            installDriver.Size = new Size(304, 36);
+            installDriver.TabIndex = 9;
+            installDriver.Text = "install/update driver";
+            installDriver.UseVisualStyleBackColor = true;
+            installDriver.Click += installDriver_Click;
             // 
             // RemoveButton
             // 
-            this.RemoveButton.Location = new System.Drawing.Point(175, 301);
-            this.RemoveButton.Name = "RemoveButton";
-            this.RemoveButton.Size = new System.Drawing.Size(159, 29);
-            this.RemoveButton.TabIndex = 10;
-            this.RemoveButton.Text = "Remove";
-            this.RemoveButton.UseVisualStyleBackColor = true;
-            this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
+            RemoveButton.Location = new Point(219, 376);
+            RemoveButton.Margin = new Padding(4, 4, 4, 4);
+            RemoveButton.Name = "RemoveButton";
+            RemoveButton.Size = new Size(199, 36);
+            RemoveButton.TabIndex = 10;
+            RemoveButton.Text = "Remove";
+            RemoveButton.UseVisualStyleBackColor = true;
+            RemoveButton.Click += RemoveButton_Click;
             // 
             // mountVHD
             // 
-            this.mountVHD.Location = new System.Drawing.Point(27, 338);
-            this.mountVHD.Name = "mountVHD";
-            this.mountVHD.Size = new System.Drawing.Size(307, 29);
-            this.mountVHD.TabIndex = 11;
-            this.mountVHD.Text = "Mount VHD";
-            this.mountVHD.UseVisualStyleBackColor = true;
-            this.mountVHD.Click += new System.EventHandler(this.mountVHD_Click);
+            mountVHD.Location = new Point(34, 422);
+            mountVHD.Margin = new Padding(4, 4, 4, 4);
+            mountVHD.Name = "mountVHD";
+            mountVHD.Size = new Size(384, 36);
+            mountVHD.TabIndex = 11;
+            mountVHD.Text = "Mount VHD";
+            mountVHD.UseVisualStyleBackColor = true;
+            mountVHD.Click += mountVHD_Click;
             // 
             // vhdBox
             // 
-            this.vhdBox.FormattingEnabled = true;
-            this.vhdBox.Location = new System.Drawing.Point(27, 373);
-            this.vhdBox.Name = "vhdBox";
-            this.vhdBox.Size = new System.Drawing.Size(58, 28);
-            this.vhdBox.TabIndex = 12;
-            this.vhdBox.Click += new System.EventHandler(this.vhdBox_Click);
+            vhdBox.FormattingEnabled = true;
+            vhdBox.Location = new Point(34, 466);
+            vhdBox.Margin = new Padding(4, 4, 4, 4);
+            vhdBox.Name = "vhdBox";
+            vhdBox.Size = new Size(72, 33);
+            vhdBox.TabIndex = 12;
+            vhdBox.Click += vhdBox_Click;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(91, 429);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(176, 20);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "with ❤ by @b1on1cdog";
+            label3.AutoSize = true;
+            label3.Location = new Point(114, 536);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(215, 25);
+            label3.TabIndex = 13;
+            label3.Text = "with ❤ by @b1on1cdog";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 465);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.vhdBox);
-            this.Controls.Add(this.mountVHD);
-            this.Controls.Add(this.RemoveButton);
-            this.Controls.Add(this.installDriver);
-            this.Controls.Add(this.allocLabel);
-            this.Controls.Add(this.allocationBar);
-            this.Controls.Add(this.AllocationLabel);
-            this.Controls.Add(this.addButton);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.vmBox);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.gpuBox);
-            this.Name = "Form1";
-            this.Text = "Fast GPU-P";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(450, 581);
+            Controls.Add(label3);
+            Controls.Add(vhdBox);
+            Controls.Add(mountVHD);
+            Controls.Add(RemoveButton);
+            Controls.Add(installDriver);
+            Controls.Add(allocLabel);
+            Controls.Add(allocationBar);
+            Controls.Add(AllocationLabel);
+            Controls.Add(addButton);
+            Controls.Add(label2);
+            Controls.Add(vmBox);
+            Controls.Add(label1);
+            Controls.Add(gpuBox);
+            Margin = new Padding(4, 4, 4, 4);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "Form1";
+            Padding = new Padding(25, 75, 25, 25);
+            Text = "Fast GPU-P";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
