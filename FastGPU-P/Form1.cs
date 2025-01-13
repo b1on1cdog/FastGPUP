@@ -59,9 +59,12 @@ namespace FastGPU_P
                     vmBox.Items.Add(_vm);
                 }
 
-                if (vmBox.Items.Count == 1){
-                vmBox.SelectedIndex = 0;
-                vmBox.Enabled = false;
+                if (vmBox.Items.Count == 0) {
+                MessageBox.Show("No VMs available!");
+                Application.Exit();
+                } else if (vmBox.Items.Count == 1){
+                    vmBox.SelectedIndex = 0;
+                    vmBox.Enabled = false;
                 }
 
         }
