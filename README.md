@@ -7,3 +7,10 @@ For drivers you press Mount VHD, when done it will open disk management where yo
 </br>
 Windows 10 does not allow GPU selection, this is an Hyper-V limitation.</br>
 This tool requires .NET Framework 6.0.</br>
+
+# To-do
+-Detect mismatched guest GPU drivers</br>
+-Bulk GPU driver install</br>
+-Install additional addons that are usually needed inside VMs (example: dummy video adapter)</br>
+-AMD GPU support</br>
+-Intel Arc GPU Support</br>

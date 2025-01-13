@@ -260,7 +260,6 @@ If ($state_was_running){
             {
                 MessageBox.Show("GPU driver updated successfully!");
             }
-            //
         }
         private void LoadDrives()
         {
