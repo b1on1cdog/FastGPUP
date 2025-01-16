@@ -213,7 +213,11 @@ While ($VM.State -ne ""Off"") {
 }
 
 ""Mounting Drive...""
-$DriveLetter = (Mount-VHD -Path $VHD.Path -PassThru | Get-Disk | Get-Partition | Get-Volume | Where-Object {$_.DriveLetter} | ForEach-Object DriveLetter) | where { Test-Path ""$_`:\Windows\System32"" }
+$DiskNumber = (Mount-VHD -NoDriveLetter -Path $VHD.Path -PassThru | Get-Disk).Number
+$PartitionNumber = (Get-Partition -DiskNumber $DiskNumber | Where-Object {$_.Type -eq ""Basic""}).PartitionNumber
+$UsedLetters = Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -ExpandProperty DeviceID | ForEach-Object { $_.ToString()[0] }
+$DriveLetter = [char[]](67..90) | Where-Object { $_ -notin $UsedLetters } | Select-Object -First 1
+Set-Partition -DiskNumber $DiskNumber -PartitionNumber $PartitionNumber -NewDriveLetter $DriveLetter
 
 ""Copying GPU Files - this could take a while...""
 Add-VMGPUPartitionAdapterFiles -hostname $Hostname -DriveLetter $DriveLetter -GPUName $GPUName
