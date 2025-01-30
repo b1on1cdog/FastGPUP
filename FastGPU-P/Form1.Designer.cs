@@ -36,10 +36,8 @@
             AllocationLabel = new Label();
             allocationBar = new MetroFramework.Controls.MetroTrackBar();
             allocLabel = new Label();
-            installDriver = new Button();
+            installDriverBtn = new Button();
             RemoveButton = new Button();
-            mountVHD = new Button();
-            vhdBox = new ComboBox();
             label3 = new Label();
             SuspendLayout();
             // 
@@ -123,16 +121,16 @@
             allocLabel.TabIndex = 8;
             allocLabel.Text = "50%";
             // 
-            // installDriver
+            // installDriverBtn
             // 
-            installDriver.Location = new Point(114, 465);
-            installDriver.Margin = new Padding(4, 4, 4, 4);
-            installDriver.Name = "installDriver";
-            installDriver.Size = new Size(304, 36);
-            installDriver.TabIndex = 9;
-            installDriver.Text = "install/update driver";
-            installDriver.UseVisualStyleBackColor = true;
-            installDriver.Click += installDriver_Click;
+            installDriverBtn.Location = new Point(114, 465);
+            installDriverBtn.Margin = new Padding(4, 4, 4, 4);
+            installDriverBtn.Name = "installDriver";
+            installDriverBtn.Size = new Size(304, 36);
+            installDriverBtn.TabIndex = 9;
+            installDriverBtn.Text = "install/update driver";
+            installDriverBtn.UseVisualStyleBackColor = true;
+            installDriverBtn.Click += installDriver_Click;
             // 
             // RemoveButton
             // 
@@ -144,27 +142,6 @@
             RemoveButton.Text = "Remove";
             RemoveButton.UseVisualStyleBackColor = true;
             RemoveButton.Click += RemoveButton_Click;
-            // 
-            // mountVHD
-            // 
-            mountVHD.Location = new Point(34, 422);
-            mountVHD.Margin = new Padding(4, 4, 4, 4);
-            mountVHD.Name = "mountVHD";
-            mountVHD.Size = new Size(384, 36);
-            mountVHD.TabIndex = 11;
-            mountVHD.Text = "Mount VHD";
-            mountVHD.UseVisualStyleBackColor = true;
-            mountVHD.Click += mountVHD_Click;
-            // 
-            // vhdBox
-            // 
-            vhdBox.FormattingEnabled = true;
-            vhdBox.Location = new Point(34, 466);
-            vhdBox.Margin = new Padding(4, 4, 4, 4);
-            vhdBox.Name = "vhdBox";
-            vhdBox.Size = new Size(72, 33);
-            vhdBox.TabIndex = 12;
-            vhdBox.Click += vhdBox_Click;
             // 
             // label3
             // 
@@ -178,14 +155,12 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(10F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(450, 581);
             Controls.Add(label3);
-            Controls.Add(vhdBox);
-            Controls.Add(mountVHD);
             Controls.Add(RemoveButton);
-            Controls.Add(installDriver);
+            Controls.Add(installDriverBtn);
             Controls.Add(allocLabel);
             Controls.Add(allocationBar);
             Controls.Add(AllocationLabel);
@@ -214,10 +189,8 @@
         private Label AllocationLabel;
         private MetroFramework.Controls.MetroTrackBar allocationBar;
         private Label allocLabel;
-        private Button installDriver;
+        private Button installDriverBtn;
         private Button RemoveButton;
-        private Button mountVHD;
-        private ComboBox vhdBox;
         private Label label3;
     }
 }
