@@ -71,6 +71,10 @@ namespace FastGPU_P
 
         private void allocationBar_Scroll(object sender, ScrollEventArgs e)
         {
+            int value = allocationBar.Value;
+            value = (int)(Math.Round(allocationBar.Value / 5.0) * 5);
+            allocationBar.Value = value;
+
             this.allocLabel.Text = allocationBar.Value.ToString() + "%";
         }
         private string getGPUInstance(string name)
@@ -95,8 +99,25 @@ namespace FastGPU_P
             }
             throw new Exception("instance id not found");
         }
+
+        private void shutdownVM() {
+            string _scr = (@"
+    $VMName = " + "\"" + vmBox.GetItemText(vmBox.Text) + "\"" + @"
+    if ((Get-VM -Name $vmName).State -eq ""Running"") {
+        Stop-VM -Name $vmName -Force
+    }
+");
+            var _ps = PowerShell.Create();
+            _ps.AddScript(_scr);
+            Collection<PSObject> _cObj = _ps.Invoke();
+            if (_ps.HadErrors)
+            {
+                Console.WriteLine(_ps.Streams.Error[0].ToString());
+            }
+        }
         private void addButton_Click(object sender, EventArgs e)
         {
+            shutdownVM();
 
             //Instance path only applied if system has more than one GPU or windows 11.
             var _instacePath = @"-InstancePath $instance";
@@ -106,7 +127,6 @@ namespace FastGPU_P
             }
 
             string _scr = (@"
-    Set-ExecutionPolicy -ExecutionPolicy Unrestricted
     $VMName = " + "\"" + vmBox.GetItemText(vmBox.Text) + "\"" + @"
     $instance = " + "\"" + getGPUInstance(gpuBox.Text) + "\"" + @"
     [decimal]$GPUResourceAllocationPercentage = " + allocationBar.Value.ToString() + @"
@@ -129,13 +149,14 @@ namespace FastGPU_P
             }
             else
             {
+                installDriver();
                 MessageBox.Show("GPU Added to VM successfully!");
             }
         }
 
         private void installDriver()
         {
-            //
+            shutdownVM();
             string _scr = @"
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 Import-Module Storage
@@ -266,6 +287,7 @@ If ($state_was_running){
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
+            shutdownVM();
             string _scr = ("Remove-VMGpuPartitionAdapter -VMName " + "\"" + vmBox.Text + "\"");
             var _ps = PowerShell.Create();
             _ps.AddScript(_scr);

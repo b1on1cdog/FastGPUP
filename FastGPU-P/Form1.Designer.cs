@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             gpuBox = new ComboBox();
             label1 = new Label();
             vmBox = new ComboBox();
@@ -44,8 +45,8 @@
             // gpuBox
             // 
             gpuBox.FormattingEnabled = true;
-            gpuBox.Location = new Point(31, 218);
-            gpuBox.Margin = new Padding(4, 4, 4, 4);
+            gpuBox.Location = new Point(29, 235);
+            gpuBox.Margin = new Padding(4, 7, 4, 7);
             gpuBox.Name = "gpuBox";
             gpuBox.Size = new Size(393, 33);
             gpuBox.TabIndex = 0;
@@ -53,7 +54,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(31, 189);
+            label1.Location = new Point(29, 193);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(46, 25);
@@ -63,8 +64,8 @@
             // vmBox
             // 
             vmBox.FormattingEnabled = true;
-            vmBox.Location = new Point(29, 134);
-            vmBox.Margin = new Padding(4, 4, 4, 4);
+            vmBox.Location = new Point(29, 132);
+            vmBox.Margin = new Padding(4, 7, 4, 7);
             vmBox.Name = "vmBox";
             vmBox.Size = new Size(395, 33);
             vmBox.TabIndex = 2;
@@ -72,7 +73,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(31, 101);
+            label2.Location = new Point(29, 87);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(39, 25);
@@ -81,10 +82,10 @@
             // 
             // addButton
             // 
-            addButton.Location = new Point(31, 376);
-            addButton.Margin = new Padding(4, 4, 4, 4);
+            addButton.Location = new Point(31, 397);
+            addButton.Margin = new Padding(4, 7, 4, 7);
             addButton.Name = "addButton";
-            addButton.Size = new Size(180, 36);
+            addButton.Size = new Size(180, 60);
             addButton.TabIndex = 4;
             addButton.Text = "Add";
             addButton.UseVisualStyleBackColor = true;
@@ -93,7 +94,7 @@
             // AllocationLabel
             // 
             AllocationLabel.AutoSize = true;
-            AllocationLabel.Location = new Point(34, 268);
+            AllocationLabel.Location = new Point(29, 291);
             AllocationLabel.Margin = new Padding(4, 0, 4, 0);
             AllocationLabel.Name = "AllocationLabel";
             AllocationLabel.Size = new Size(184, 25);
@@ -103,10 +104,11 @@
             // allocationBar
             // 
             allocationBar.BackColor = Color.Transparent;
-            allocationBar.Location = new Point(34, 308);
-            allocationBar.Margin = new Padding(4, 4, 4, 4);
+            allocationBar.Location = new Point(31, 323);
+            allocationBar.Margin = new Padding(4, 7, 4, 7);
             allocationBar.Name = "allocationBar";
-            allocationBar.Size = new Size(319, 36);
+            allocationBar.Size = new Size(319, 60);
+            allocationBar.SmallChange = 5;
             allocationBar.TabIndex = 7;
             allocationBar.Text = "null";
             allocationBar.Scroll += allocationBar_Scroll;
@@ -114,7 +116,7 @@
             // allocLabel
             // 
             allocLabel.AutoSize = true;
-            allocLabel.Location = new Point(371, 309);
+            allocLabel.Location = new Point(371, 340);
             allocLabel.Margin = new Padding(4, 0, 4, 0);
             allocLabel.Name = "allocLabel";
             allocLabel.Size = new Size(47, 25);
@@ -123,21 +125,21 @@
             // 
             // installDriverBtn
             // 
-            installDriverBtn.Location = new Point(114, 465);
-            installDriverBtn.Margin = new Padding(4, 4, 4, 4);
-            installDriverBtn.Name = "installDriver";
-            installDriverBtn.Size = new Size(304, 36);
+            installDriverBtn.Location = new Point(31, 471);
+            installDriverBtn.Margin = new Padding(4, 7, 4, 7);
+            installDriverBtn.Name = "installDriverBtn";
+            installDriverBtn.Size = new Size(387, 60);
             installDriverBtn.TabIndex = 9;
-            installDriverBtn.Text = "install/update driver";
+            installDriverBtn.Text = "Update driver";
             installDriverBtn.UseVisualStyleBackColor = true;
-            installDriverBtn.Click += installDriver_Click;
+            installDriverBtn.Click += installDriverBtn_Click;
             // 
             // RemoveButton
             // 
-            RemoveButton.Location = new Point(219, 376);
-            RemoveButton.Margin = new Padding(4, 4, 4, 4);
+            RemoveButton.Location = new Point(219, 397);
+            RemoveButton.Margin = new Padding(4, 7, 4, 7);
             RemoveButton.Name = "RemoveButton";
-            RemoveButton.Size = new Size(199, 36);
+            RemoveButton.Size = new Size(199, 60);
             RemoveButton.TabIndex = 10;
             RemoveButton.Text = "Remove";
             RemoveButton.UseVisualStyleBackColor = true;
@@ -146,7 +148,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(114, 536);
+            label3.Location = new Point(119, 545);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(215, 25);
@@ -155,9 +157,9 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(10F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 581);
+            ClientSize = new Size(450, 612);
             Controls.Add(label3);
             Controls.Add(RemoveButton);
             Controls.Add(installDriverBtn);
@@ -169,11 +171,12 @@
             Controls.Add(vmBox);
             Controls.Add(label1);
             Controls.Add(gpuBox);
-            Margin = new Padding(4, 4, 4, 4);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 7, 4, 7);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Form1";
-            Padding = new Padding(25, 75, 25, 25);
+            Padding = new Padding(25, 125, 25, 42);
             Text = "Fast GPU-P";
             ResumeLayout(false);
             PerformLayout();
