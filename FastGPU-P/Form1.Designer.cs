@@ -28,74 +28,75 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             gpuBox = new ComboBox();
-            label1 = new Label();
+            gpuLabel = new Label();
             vmBox = new ComboBox();
-            label2 = new Label();
+            vmLabel = new Label();
             addButton = new Button();
             AllocationLabel = new Label();
             allocationBar = new MetroFramework.Controls.MetroTrackBar();
-            allocLabel = new Label();
-            installDriver = new Button();
+            allocPercent = new Label();
+            installDriverBtn = new Button();
             RemoveButton = new Button();
-            mountVHD = new Button();
-            vhdBox = new ComboBox();
-            label3 = new Label();
+            creditLabel = new Label();
             SuspendLayout();
             // 
             // gpuBox
             // 
+            gpuBox.DropDownStyle = ComboBoxStyle.DropDownList;
             gpuBox.FormattingEnabled = true;
-            gpuBox.Location = new Point(31, 218);
-            gpuBox.Margin = new Padding(4, 4, 4, 4);
+            gpuBox.Location = new Point(29, 235);
+            gpuBox.Margin = new Padding(4, 7, 4, 7);
             gpuBox.Name = "gpuBox";
             gpuBox.Size = new Size(393, 33);
             gpuBox.TabIndex = 0;
             // 
-            // label1
+            // gpuLabel
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(31, 189);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(46, 25);
-            label1.TabIndex = 1;
-            label1.Text = "GPU";
+            gpuLabel.AutoSize = true;
+            gpuLabel.Location = new Point(29, 193);
+            gpuLabel.Margin = new Padding(4, 0, 4, 0);
+            gpuLabel.Name = "gpuLabel";
+            gpuLabel.Size = new Size(46, 25);
+            gpuLabel.TabIndex = 1;
+            gpuLabel.Text = "GPU";
             // 
             // vmBox
             // 
+            vmBox.DropDownStyle = ComboBoxStyle.DropDownList;
             vmBox.FormattingEnabled = true;
-            vmBox.Location = new Point(29, 134);
-            vmBox.Margin = new Padding(4, 4, 4, 4);
+            vmBox.Location = new Point(29, 132);
+            vmBox.Margin = new Padding(4, 7, 4, 7);
             vmBox.Name = "vmBox";
             vmBox.Size = new Size(395, 33);
             vmBox.TabIndex = 2;
             // 
-            // label2
+            // vmLabel
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(31, 101);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(39, 25);
-            label2.TabIndex = 3;
-            label2.Text = "VM";
+            vmLabel.AutoSize = true;
+            vmLabel.Location = new Point(29, 87);
+            vmLabel.Margin = new Padding(4, 0, 4, 0);
+            vmLabel.Name = "vmLabel";
+            vmLabel.Size = new Size(39, 25);
+            vmLabel.TabIndex = 3;
+            vmLabel.Text = "VM";
             // 
             // addButton
             // 
-            addButton.Location = new Point(31, 376);
-            addButton.Margin = new Padding(4, 4, 4, 4);
+            addButton.Location = new Point(31, 397);
+            addButton.Margin = new Padding(4, 7, 4, 7);
             addButton.Name = "addButton";
-            addButton.Size = new Size(180, 36);
+            addButton.Size = new Size(180, 60);
             addButton.TabIndex = 4;
-            addButton.Text = "Add";
+            addButton.Text = "Allocate";
             addButton.UseVisualStyleBackColor = true;
             addButton.Click += addButton_Click;
             // 
             // AllocationLabel
             // 
             AllocationLabel.AutoSize = true;
-            AllocationLabel.Location = new Point(34, 268);
+            AllocationLabel.Location = new Point(29, 291);
             AllocationLabel.Margin = new Padding(4, 0, 4, 0);
             AllocationLabel.Name = "AllocationLabel";
             AllocationLabel.Size = new Size(184, 25);
@@ -105,100 +106,80 @@
             // allocationBar
             // 
             allocationBar.BackColor = Color.Transparent;
-            allocationBar.Location = new Point(34, 308);
-            allocationBar.Margin = new Padding(4, 4, 4, 4);
+            allocationBar.Location = new Point(31, 323);
+            allocationBar.Margin = new Padding(4, 7, 4, 7);
+            allocationBar.Minimum = 5;
             allocationBar.Name = "allocationBar";
-            allocationBar.Size = new Size(319, 36);
+            allocationBar.Size = new Size(319, 60);
+            allocationBar.SmallChange = 5;
             allocationBar.TabIndex = 7;
             allocationBar.Text = "null";
             allocationBar.Scroll += allocationBar_Scroll;
             // 
-            // allocLabel
+            // allocPercent
             // 
-            allocLabel.AutoSize = true;
-            allocLabel.Location = new Point(371, 309);
-            allocLabel.Margin = new Padding(4, 0, 4, 0);
-            allocLabel.Name = "allocLabel";
-            allocLabel.Size = new Size(47, 25);
-            allocLabel.TabIndex = 8;
-            allocLabel.Text = "50%";
+            allocPercent.AutoSize = true;
+            allocPercent.Location = new Point(371, 340);
+            allocPercent.Margin = new Padding(4, 0, 4, 0);
+            allocPercent.Name = "allocPercent";
+            allocPercent.Size = new Size(47, 25);
+            allocPercent.TabIndex = 8;
+            allocPercent.Text = "50%";
             // 
-            // installDriver
+            // installDriverBtn
             // 
-            installDriver.Location = new Point(114, 465);
-            installDriver.Margin = new Padding(4, 4, 4, 4);
-            installDriver.Name = "installDriver";
-            installDriver.Size = new Size(304, 36);
-            installDriver.TabIndex = 9;
-            installDriver.Text = "install/update driver";
-            installDriver.UseVisualStyleBackColor = true;
-            installDriver.Click += installDriver_Click;
+            installDriverBtn.Location = new Point(31, 471);
+            installDriverBtn.Margin = new Padding(4, 7, 4, 7);
+            installDriverBtn.Name = "installDriverBtn";
+            installDriverBtn.Size = new Size(387, 60);
+            installDriverBtn.TabIndex = 9;
+            installDriverBtn.Text = "Update driver";
+            installDriverBtn.UseVisualStyleBackColor = true;
+            installDriverBtn.Click += installDriverBtn_Click;
             // 
             // RemoveButton
             // 
-            RemoveButton.Location = new Point(219, 376);
-            RemoveButton.Margin = new Padding(4, 4, 4, 4);
+            RemoveButton.Location = new Point(219, 397);
+            RemoveButton.Margin = new Padding(4, 7, 4, 7);
             RemoveButton.Name = "RemoveButton";
-            RemoveButton.Size = new Size(199, 36);
+            RemoveButton.Size = new Size(199, 60);
             RemoveButton.TabIndex = 10;
             RemoveButton.Text = "Remove";
             RemoveButton.UseVisualStyleBackColor = true;
             RemoveButton.Click += RemoveButton_Click;
             // 
-            // mountVHD
+            // creditLabel
             // 
-            mountVHD.Location = new Point(34, 422);
-            mountVHD.Margin = new Padding(4, 4, 4, 4);
-            mountVHD.Name = "mountVHD";
-            mountVHD.Size = new Size(384, 36);
-            mountVHD.TabIndex = 11;
-            mountVHD.Text = "Mount VHD";
-            mountVHD.UseVisualStyleBackColor = true;
-            mountVHD.Click += mountVHD_Click;
-            // 
-            // vhdBox
-            // 
-            vhdBox.FormattingEnabled = true;
-            vhdBox.Location = new Point(34, 466);
-            vhdBox.Margin = new Padding(4, 4, 4, 4);
-            vhdBox.Name = "vhdBox";
-            vhdBox.Size = new Size(72, 33);
-            vhdBox.TabIndex = 12;
-            vhdBox.Click += vhdBox_Click;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(114, 536);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(215, 25);
-            label3.TabIndex = 13;
-            label3.Text = "with ❤ by @b1on1cdog";
+            creditLabel.AutoSize = true;
+            creditLabel.Location = new Point(119, 545);
+            creditLabel.Margin = new Padding(4, 0, 4, 0);
+            creditLabel.Name = "creditLabel";
+            creditLabel.Size = new Size(215, 25);
+            creditLabel.TabIndex = 13;
+            creditLabel.Text = "with ❤ by @b1on1cdog";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(450, 581);
-            Controls.Add(label3);
-            Controls.Add(vhdBox);
-            Controls.Add(mountVHD);
+            ClientSize = new Size(450, 612);
+            Controls.Add(creditLabel);
             Controls.Add(RemoveButton);
-            Controls.Add(installDriver);
-            Controls.Add(allocLabel);
+            Controls.Add(installDriverBtn);
+            Controls.Add(allocPercent);
             Controls.Add(allocationBar);
             Controls.Add(AllocationLabel);
             Controls.Add(addButton);
-            Controls.Add(label2);
+            Controls.Add(vmLabel);
             Controls.Add(vmBox);
-            Controls.Add(label1);
+            Controls.Add(gpuLabel);
             Controls.Add(gpuBox);
-            Margin = new Padding(4, 4, 4, 4);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 7, 4, 7);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Form1";
-            Padding = new Padding(25, 75, 25, 25);
+            Padding = new Padding(25, 125, 25, 42);
             Text = "Fast GPU-P";
             ResumeLayout(false);
             PerformLayout();
@@ -207,17 +188,15 @@
         #endregion
 
         private ComboBox gpuBox;
-        private Label label1;
+        private Label gpuLabel;
         private ComboBox vmBox;
-        private Label label2;
+        private Label vmLabel;
         private Button addButton;
         private Label AllocationLabel;
         private MetroFramework.Controls.MetroTrackBar allocationBar;
-        private Label allocLabel;
-        private Button installDriver;
+        private Label allocPercent;
+        private Button installDriverBtn;
         private Button RemoveButton;
-        private Button mountVHD;
-        private ComboBox vhdBox;
-        private Label label3;
+        private Label creditLabel;
     }
 }
