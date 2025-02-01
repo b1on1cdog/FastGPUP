@@ -3,6 +3,7 @@ using System.Management.Automation;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Management;
+using Microsoft.Win32;
 
 namespace FastGPU_P
 {
@@ -16,6 +17,86 @@ namespace FastGPU_P
             InitializeComponent();
             Shown += Form1_Shown;
         }
+        static string GetWindowsEdition()
+        {
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem"))
+            {
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    return obj["Caption"]?.ToString() ?? "Unknown";
+                }
+            }
+            return "Unknown";
+        }
+        static bool IsWindowsCompatible()
+        {
+            int buildNumber = Environment.OSVersion.Version.Build;
+            string edition = GetWindowsEdition();
+            Debug.WriteLine("Running " + edition);
+
+            if (buildNumber >= 19041 &&
+                (edition.Contains("Professional") || edition.Contains("Enterprise") || edition.Contains("Education")))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        static string GetGPUVRAM(string gpuName)
+        {
+            int index = 0;
+            while (true) {
+
+                string registryKeyPath = @"SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\000"+index.ToString();
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registryKeyPath))
+                {
+                    if (key == null && index > 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        string foundName = GetValueFromRegistry(registryKeyPath, "DriverDesc");
+                        if (foundName == gpuName) {
+                            return GetValueFromRegistry(registryKeyPath, "HardwareInformation.qwMemorySize");
+                        }
+                    }
+                    index++;
+                }
+            }
+            
+        }
+        static string GetValueFromRegistry(string registryKeyPath, string valueName)
+        {
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registryKeyPath))
+            {
+                if (key != null)
+                {
+                    object value = key.GetValue(valueName);
+                    if (value != null)
+                    {
+                        return value.ToString(); 
+                    }
+                }
+            }
+
+            return null;
+        }
+        static bool FeatureEnabled(string featureName)
+        {
+            string query = $"SELECT * FROM Win32_OptionalFeature WHERE Name = '{featureName}'";
+
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+            {
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    int installState = Convert.ToInt32(obj["InstallState"]);
+                    return installState == 1;
+                }
+            }
+
+            return false;  // Feature not found or not enabled
+        }
 
         private void Form1_Shown(Object sender, EventArgs e)
         {
@@ -24,48 +105,80 @@ namespace FastGPU_P
                 //Win10 does not allow GPU selection
                 gpuBox.Text = "Auto";
                 gpuBox.Enabled = false;
-            } else {
+            }
+            else
+            {
                 int i = 0;
+                int max_vram_index = 0;
+                double max_vram = 0.0;
 
                 using (var searcher = new ManagementObjectSearcher("select * from Win32_VideoController"))
                 {
                     foreach (ManagementObject obj in searcher.Get())
                     {
                         gpuBox.Items.Add(obj["Name"]);
-                        Console.WriteLine();
+                        double vram = Convert.ToDouble(GetGPUVRAM((string)obj["Name"]));
+                        if (vram > max_vram) {
+                           max_vram = vram;
+                           max_vram_index = i;
+                        }
                         i++;
+
+                        double GB = 1024.0 * 1024.0 * 1024.0;
+                        string vram_gb = (Convert.ToDouble(GetGPUVRAM((string)obj["Name"])) / GB).ToString("0.##");
+                        Debug.WriteLine(obj["Name"] + ": " + vram_gb+"GB");
                     }
                 }
+                gpuBox.SelectedIndex = max_vram_index;
             }
 
             //Only 1 GPU installed, disable selection
-            if (gpuBox.Items.Count == 1) {
-                    gpuBox.SelectedIndex = 0;
-                    gpuBox.Enabled = false;
-             }
+            if (gpuBox.Items.Count == 1)
+            {
+                //gpuBox.SelectedIndex = 0;
+                gpuBox.Enabled = false;
+            }
 
-            string _scr = ("Get-VM | Where-Object Generation -GT (1)  | Select -ExpandProperty Name");
-                var _ps = PowerShell.Create();
-                _ps.AddScript(_scr);
-                Collection<PSObject> _cObj = _ps.Invoke();
+           //
+            var _ps = PowerShell.Create();
+            _ps.AddScript("Get-VM | Where-Object Generation -GT (1)  | Select -ExpandProperty Name");
+            Collection<PSObject> _cObj = _ps.Invoke();
 
-                if (_ps.HadErrors)
-                {
-                    Console.WriteLine(_ps.Streams.Error[0].ToString());
-                }
+            if (_ps.HadErrors)
+            {
+                Debug.WriteLine(_ps.Streams.Error[0].ToString());
+            }
 
-                foreach (PSObject _vm in _cObj)
-                {
-                    vmBox.Items.Add(_vm);
-                }
+            foreach (PSObject _vm in _cObj)
+            {
+                vmBox.Items.Add(_vm);
+            }
 
-                if (vmBox.Items.Count == 0) {
+            if (vmBox.Items.Count == 0)
+            {
                 MessageBox.Show("No VMs available!");
                 Application.Exit();
-                } else if (vmBox.Items.Count == 1){
-                    vmBox.SelectedIndex = 0;
-                    vmBox.Enabled = false;
-                }
+            }
+            else if (vmBox.Items.Count == 1)
+            {
+                vmBox.SelectedIndex = 0;
+                vmBox.Enabled = false;
+            }
+
+            if (!IsWindowsCompatible())
+            {
+                MessageBox.Show("Only Windows 10 20H1 or Windows 11 (Pro, Enterprise, or Education) is supported.");
+                Application.Exit();
+            } else if (!FeatureEnabled("Microsoft-Hyper-V-All"))
+            {
+                MessageBox.Show("Hyper-V feature is disabled, you need Hyper-V enabled if you want to use GPU-P");
+                Application.Exit();
+            } 
+            
+            if (FeatureEnabled("Microsoft-Windows-Subsystem-Linux"))
+            {
+                Debug.WriteLine("WSL is enabled, this could cause compatibility issues!");
+            }
 
         }
 
@@ -75,7 +188,7 @@ namespace FastGPU_P
             value = (int)(Math.Round(allocationBar.Value / 5.0) * 5);
             allocationBar.Value = value;
 
-            this.allocLabel.Text = allocationBar.Value.ToString() + "%";
+            this.allocPercent.Text = allocationBar.Value.ToString() + "%";
         }
         private string getGPUInstance(string name)
         {
@@ -101,6 +214,11 @@ namespace FastGPU_P
         }
 
         private void shutdownVM() {
+            /*
+             to-do:
+            -implement graceful shutdown
+            -store the VM running state and autostart VM after finishing execution
+             */
             string _scr = (@"
     $VMName = " + "\"" + vmBox.GetItemText(vmBox.Text) + "\"" + @"
     if ((Get-VM -Name $vmName).State -eq ""Running"") {
@@ -140,6 +258,15 @@ namespace FastGPU_P
     Set-VM -LowMemoryMappedIoSpace 1Gb -VMName $VMName
     Set-VM -HighMemoryMappedIoSpace 32GB -VMName $VMName
 ");
+            /*
+            string vramString = GetGPUVRAM(gpuBox.Text);
+            if (vramString != null && Convert.ToDouble(vramString) > 500000000) {
+                _scr = _scr.Replace("1000000000", vramString);
+                _scr = _scr.Replace("18446744073709551615", vramString);
+                Debug.WriteLine(_scr);
+            }
+            */
+
             var _ps = PowerShell.Create();
             _ps.AddScript(_scr);
             Collection<PSObject> _cObj = _ps.Invoke();
@@ -150,7 +277,7 @@ namespace FastGPU_P
             else
             {
                 installDriver();
-                MessageBox.Show("GPU Added to VM successfully!");
+                MessageBox.Show("GPU partition assigned to VM!");
             }
         }
 
@@ -281,7 +408,7 @@ If ($state_was_running){
             }
             else
             {
-                MessageBox.Show("GPU driver updated successfully!");
+                MessageBox.Show("GPU drivers updated successfully!");
             }
         }
 
@@ -298,7 +425,7 @@ If ($state_was_running){
             }
             else
             {
-                MessageBox.Show("successfully removed all GPU Partitions from VM");
+                MessageBox.Show("Successfully cleared all GPU Partitions from VM");
             }
         }
 
