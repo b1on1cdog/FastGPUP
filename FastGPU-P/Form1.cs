@@ -167,13 +167,36 @@ namespace FastGPU_P
 
             if (!IsWindowsCompatible())
             {
-                MessageBox.Show("Only Windows 10 20H1 or Windows 11 (Pro, Enterprise, or Education) is supported.");
-                Application.Exit();
-            } else if (!FeatureEnabled("Microsoft-Hyper-V-All"))
+                DialogResult result = MessageBox.Show(
+                    "This application is optimized for Windows 10 20H1 or Windows 11 (Pro, Enterprise, or Education).\n\n" +
+                    "Running on an unsupported Windows version may cause issues.\n\n" +
+                    "Do you want to continue anyway?",
+                    "Compatibility Warning",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+                
+                if (result == DialogResult.No)
+                {
+                    Application.Exit();
+                }
+            }
+            
+            if (!FeatureEnabled("Microsoft-Hyper-V-All"))
             {
-                MessageBox.Show("Hyper-V feature is disabled, you need Hyper-V enabled if you want to use GPU-P");
-                Application.Exit();
-            } 
+                DialogResult result = MessageBox.Show(
+                    "Hyper-V feature is disabled. GPU-P requires Hyper-V to be enabled.\n\n" +
+                    "Do you want to continue anyway?",
+                    "Hyper-V Warning",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+                
+                if (result == DialogResult.No)
+                {
+                    Application.Exit();
+                }
+            }
             
             if (FeatureEnabled("Microsoft-Windows-Subsystem-Linux"))
             {
