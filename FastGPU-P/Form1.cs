@@ -33,13 +33,12 @@ namespace FastGPU_P
             int buildNumber = Environment.OSVersion.Version.Build;
             string edition = GetWindowsEdition();
             Debug.WriteLine("Running " + edition);
-
-            if (buildNumber >= 19041 &&
-                (edition.Contains("Professional") || edition.Contains("Enterprise") || edition.Contains("Education")))
-            {
+            if (buildNumber >= 19041 && !edition.Contains("Server")){
                 return true;
             }
-
+            if (buildNumber >= 20348 && edition.Contains("Server")) {
+                return true;
+            }
             return false;
         }
         static string GetGPUVRAM(string gpuName)
