@@ -167,7 +167,7 @@ namespace FastGPU_P
             if (!IsWindowsCompatible())
             {
                 DialogResult result = MessageBox.Show(
-                    "This application is optimized for Windows 10 20H1 or Windows 11 (Pro, Enterprise, or Education).\n\n" +
+                    "This application is optimized for Windows 10 20H1 and later..\n\n" +
                     "Running on an unsupported Windows version may cause issues.\n\n" +
                     "Do you want to continue anyway?",
                     "Compatibility Warning",

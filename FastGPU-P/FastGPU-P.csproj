@@ -9,6 +9,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>AnyCPU;x64</Platforms>
+	<AssemblyTitle>FastGPUP</AssemblyTitle>
+	<Description>A WIP GUI app to make GPU-P way easier!</Description>
+	<Company>Josue Alonso Rodriguez</Company>
+	<Product>FastGPU-P</Product>
+	<Authors>b1on1cdog</Authors>
+	<Version>0.3.1</Version>
+	<Copyright>@2025 b1on1cdog</Copyright>
+	<ApplicationIcon>FastGPU-P.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,5 +24,4 @@
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.2.1" />
     <PackageReference Include="System.Management.Automation" Version="7.2.1" />
   </ItemGroup>
-
 </Project>
