@@ -41,13 +41,13 @@ namespace FastGPU_P
             }
             return false;
         }
-        static string GetGPUVRAM(string gpuName)
+        static string? GetGPUVRAM(string gpuName)
         {
             int index = 0;
             while (true) {
 
                 string registryKeyPath = @"SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\000"+index.ToString();
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registryKeyPath))
+                using (RegistryKey? key = Registry.LocalMachine.OpenSubKey(registryKeyPath))
                 {
                     if (key == null && index > 0)
                     {
@@ -55,7 +55,7 @@ namespace FastGPU_P
                     }
                     else
                     {
-                        string foundName = GetValueFromRegistry(registryKeyPath, "DriverDesc");
+                        string? foundName = GetValueFromRegistry(registryKeyPath, "DriverDesc");
                         if (foundName == gpuName) {
                             return GetValueFromRegistry(registryKeyPath, "HardwareInformation.qwMemorySize");
                         }
@@ -65,13 +65,28 @@ namespace FastGPU_P
             }
             
         }
-        static string GetValueFromRegistry(string registryKeyPath, string valueName)
+
+        static void preventiveFixes() {
+            try
+            {
+                using (RegistryKey? key = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Policies\Microsoft\Windows\HyperV", writable: true)) {
+                    key.SetValue("RequireSecureDeviceAssignment", 0, RegistryValueKind.DWord);
+                    key.SetValue("RequireSupportedDeviceAssignment", 0, RegistryValueKind.DWord);
+                }
+                Debug.WriteLine("Preventive Fixes applied");
+            }
+            catch (Exception e) {
+                Debug.WriteLine("Failed to apply preventive fixes:" + e.Message);
+            }
+        }
+
+        static string? GetValueFromRegistry(string registryKeyPath, string valueName)
         {
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registryKeyPath))
+            using (RegistryKey? key = Registry.LocalMachine.OpenSubKey(registryKeyPath))
             {
                 if (key != null)
                 {
-                    object value = key.GetValue(valueName);
+                    object? value = key.GetValue(valueName);
                     if (value != null)
                     {
                         return value.ToString(); 
@@ -97,7 +112,7 @@ namespace FastGPU_P
             return false;  // Feature not found or not enabled
         }
 
-        private void Form1_Shown(Object sender, EventArgs e)
+        private void Form1_Shown(Object? sender, EventArgs e)
         {
             if (isWin10)
             {
@@ -258,6 +273,7 @@ namespace FastGPU_P
         private void addButton_Click(object sender, EventArgs e)
         {
             shutdownVM();
+            preventiveFixes();
 
             //Instance path only applied if system has more than one GPU or windows 11.
             var _instacePath = @"-InstancePath $instance";
